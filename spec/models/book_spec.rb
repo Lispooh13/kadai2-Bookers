@@ -5,7 +5,8 @@ require 'rails_helper'
 RSpec.describe Book, "モデルに関するテスト", type: :model do
   describe '実際に保存してみる' do
     it "有効な投稿内容の場合は保存されるか" do
-      expect(FactoryBot.build(:book)).to be_valid
+      expect(FactoryBot.build(:book)).to be_valid #expectにFactoryBot.build(:book)でbookのデータを作成されることを期待値として、be_validで有効かを判定
+      #spec/factories/book.rbの中で使用されているFakerの記述
     end
   end
   context "空白のバリデーションチェック" do
@@ -17,7 +18,7 @@ RSpec.describe Book, "モデルに関するテスト", type: :model do
     it "bodyが空白の場合にバリデーションチェックされ空白のエラーメッセージが返ってきているか" do
       book = Book.new(title: 'hoge', body:'')
       expect(book).to be_invalid
-      expect(book.errors[:body]).to include("can't be blank")
+      expect(book.errors[:body]).to include("can't be blank") #expectの期待値に()のエラーメッセージが配列に含まれるかを判定
     end
   end
   feature "titleを空白で投稿した場合に画面にエラーメッセージが表示されているか" do

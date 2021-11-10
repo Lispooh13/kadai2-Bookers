@@ -1,7 +1,10 @@
 require 'rails_helper'
 
 describe '投稿のテスト' do
-  let!(:book) { create(:book,title:'hoge',body:'body') }
+  let!(:book) { create(:book,title:'hoge',body:'body') } #letの(:book)はインスタンス変数としての役割を持つ、createの前のFactoryBot.が省略（spec/rails_helper.rbに設定してるため）
+  #letで指定されたものは「遅延評価」(:itの中でbookが出てきたときに初めて実行される)
+  #今回のlet!は「事前評価」(:beforeにしてないのはitブロックの実行時に都度実行されないため)
+  
   describe 'トップ画面(root_path)のテスト' do
     before do 
       visit root_path
@@ -35,7 +38,7 @@ describe '投稿のテスト' do
             expect(page).to have_content book.title
             expect(page).to have_content book.body
             # Showリンク
-            show_link = find_all('a')[j]
+            show_link = find_all('a')[j] #j番目のaタグをshow_linkに代入
             expect(show_link.native.inner_text).to match(/show/i)
             expect(show_link[:href]).to eq book_path(book)
             # Editリンク
